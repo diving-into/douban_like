@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fancy.douban_like.mapper.MovieMapper">
+    <select id="getMovieInfoById" parameterType="java.lang.String" resultType="com.fancy.douban_like.model.Movie" >
+         select * from movie where MovieId = #{movieId};
+    </select>
+
+    <select id="getAllMovies" resultType="com.fancy.douban_like.model.Movie">
+         select MovieId, MChineseName, MRating, MCover from movie;
+    </select>
+
+    <select id="getMoviesByKeyWords" parameterType="java.lang.String" resultType="com.fancy.douban_like.model.Movie">
+        select MovieId, MChineseName, MRating, MDigest, MCover  from Movie where MChineseName like "%" #{movieName} "%";
+    </select>
+</mapper>

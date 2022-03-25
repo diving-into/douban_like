@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>豆豆瓣-你心上的电影是哪一个</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="shortcut icon" href="https://img3.doubanio.com/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <br>
+        <a href="index" class="home btn-warning">豆豆瓣</a>
+
+        <hr>
+        <div class="text-center">
+            <h2>豆豆瓣-你的电影库</h2>
+            <br>
+            <!--提交该表单，发送请求给GetNamedMovieServlet，根据电影名称关键字模糊查询所有电影-->
+            <form class="form-inline" action="movie/name">
+                <input type="text" id="input_wd" name="keyword" class="form-control" placeholder="输入电影关键字">
+                <input type="submit" id="searchBtn1" class="btn btn-info" value="提交"></input>
+            </form>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <h3>最近热门电影</h3>
+        <hr>
+        <div class="movieGallery" th:each="movie:${movies}">
+
+        <!--每个电影打印下面的一个a元素即可，显示该电影的所有信息，这里显示了一个固定的电影7次-->
+        <!--点击超链接发送请求给GetMovieInfoServlet，根据电影编号查询单个电影的所有信息-->
+
+            <a class="item" th:href="@{'/movie/id/' + ${movie.MovieId}}" target="_blank">
+                <div>
+                    <img th:src="@{/images/{imgName}(imgName=${movie.MCover})}" alt="${movie.MChineseName}}">
+                </div>
+                <p th:text="${movie.MChineseName} + ' ' + ${movie.MRating}">电影名 评分</p>
+
+            </a>
+        </div>
+   </div>
+</body>
+</html>

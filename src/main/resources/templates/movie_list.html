@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>电影查询结果</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="shortcut icon" href="https://img3.doubanio.com/favicon.ico" type="image/x-icon">
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+</head>
+<body>
+<div class="container">
+
+    <br>
+    <a href="/douban/index" class="home btn-warning">豆豆瓣</a>
+
+    <hr>
+    <h2 class="text-warning padding10 bg-warning text-center">电影查询结果</h2>
+    <hr>
+
+    <div class="movieGallery" th:each="movie:${movies}">
+
+     <!--   获取查询到的电影的列表，遍历每个电影的信息，并在对应位置显示
+        遍历电影列表，每个电影打印一个div显示该电影的基本信息，在对应位置显示电影的对应信息即可
+        这里显示了一个固定的电影4次-->
+        <div class="content">
+            <div class="leftDiv">
+                <!--点击这里的超链接可以显示电影的详细信息-->
+                <a target="_blank" th:href="@{'/movie/id/' + ${movie.MovieId}}" >
+                    <img target="_blank" class="img-thumbnail" th:src="@{/images/{imgName}(imgName=${movie.MCover})}" alt="${movie.MChineseName}}">
+                </a>
+
+            </div>
+            <div class="rightDiv">
+                电影名称：
+                <!--点击这里的超链接可以显示电影的详细信息-->
+                <a target="_blank" th:href="@{'/movie/id/' + ${movie.MovieId}}" class="bg-success text-success padding5" th:text="'      ' + ${movie.MChineseName}"></a>
+                <br>
+                <div th:text="'豆瓣评分 : ' + ${movie.MRating}">豆瓣评分</div>
+                <h4 class="padding5 text-info bg-info" th:text="${movie.MChineseName} + ' ' + '剧情简介· · · · · ·'">剧情简介 · · · · · ·</h4>
+                <p th:text="${movie.MDigest}">
+                    电影简介
+                    <!--点击这里的超链接可以显示电影的详细信息-->
+                </p><a target="_blank"  th:href="@{'/movie/id/' + ${movie.MovieId}}">查看更多</a>
+                <br>
+            </div>
+        </div>
+        <hr class="clear">
+    </div>
+
+</div>
+</body>
+</html>

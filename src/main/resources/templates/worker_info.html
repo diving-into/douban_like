@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>工作人员信息</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="shortcut icon" href="https://img3.doubanio.com/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+<div class="container">
+
+    <br>
+    <a href="/douban/index" class="home btn-warning">豆豆瓣</a>
+
+    <hr>
+    <h2 class="text-warning bg-warning padding10" th:text="'名人介绍 : ' + ${worker.WName}  + ' ' + ${worker.WAnotherName}">名人介绍： 导演或演员名字 导演或演员名字另一个名字</h2>
+    <hr>
+    <div class="content">
+        <div class="leftDiv">
+            <img class="img-thumbnail" th:src="@{/images/{imgName}(imgName=${worker.WImage})}" alt="${worker.WName}">
+        </div>
+        <div class="rightDiv">
+            <br><br>
+            <div th:text="'姓名 : ' + ${worker.WName}">姓名： 导演或演员名字</div>
+            <div th:text="'又名 : ' + ${worker.WAnotherName}">又名： 导演或演员名字另一个名字</div>
+            <div th:text="'性别 : ' + ${worker.WGender}">性别： 导演或演员性别</div>
+            <div th:text="'星座 : ' + ${worker.WHoroscope}">星座： 导演或演员名字星座</div>
+            <br><br>
+        </div>
+        <div class="bottomDiv">
+            <h3 class="padding10 text-success bg-success" th:text="${worker.WName} + ' 个人简介 · · · · · ·'">导演或演员名字个人简介 · · · · · ·</h3>
+            <hr>
+            <p th:text="${worker.WDescription}"></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

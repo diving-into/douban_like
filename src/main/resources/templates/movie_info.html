@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:display="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>电影信息</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="shortcut icon" href="https://img3.doubanio.com/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+
+   <!--  获取电影的详细信息
+         Movie类中的有个属性workerList，是个List<Worker>列表，用于存储电影的所有员工
+         在查询一个电影的信息的时候，已经帮你们查询了该电影的所有员工，放入了workerList属性中
+         其中列表中的第一个工作人员是导演，其他为演员，因为数据库对每个工作人员编了顺序，0为导演，1为最主要主演，2为次主要主演，以此类推
+         你需要获取列表中的第一个工作人员，也就是导演，然后在对应位置显示导演信息-->
+
+
+    <div class="container">
+
+        <br>
+        <a href="/douban/index" class="home btn-warning">豆豆瓣</a>
+
+        <!--以下是显示了一个固定电影的信息，替换成查询到的电影的动态信息即可-->
+
+        <hr>
+        <h2 class="text-warning bg-warning padding10" th:if="${movie.MOriginalName == null}" th:text="'电影介绍:  ' + '  ' + ${movie.MChineseName} + '  '"></h2>
+        <h2 class="text-warning bg-warning padding10" th:if="${movie.MOriginalName != null}" th:text="'电影介绍:  ' + '  ' + ${movie.MChineseName} + '  ' + ${movie.MOriginalName}"></h2>
+        <hr>
+        <div class="content">
+            <div class="leftDiv">
+                <img class="img-thumbnail" th:src="@{/images/{imgName}(imgName=${movie.MCover})}" alt="${movie.MChineseName}}">
+            </div>
+            <div class="rightDiv">
+                <!--这里显示导演的超链接-->
+                <!--点击这里的超链接，查询导演具体信息，并在worker_info.jsp页面显示导演详细信息-->
+                <br>导演： <a target="_blank" th:href="@{'/worker/id/' + ${movie.workerList[0].WorkerId}}" th:text="${movie.workerList[0].WName}">导演名字</a>
+                <br>主演：
+
+<!--                这里遍历列表中第二个开始的工作人员，也就是显示所有演员的信息，然后在对应位置显示演员信息-->
+<!--                i=1说明从列表中第二个Worker对象开始遍历，索引从0开始，这里显示了一个固定的演员信息4次-->
+
+                <!--点击这里的超链接，查询演员具体信息，并在worker_info.jsp页面显示导演详细信息-->
+                <span th:each="worker, workerStat:${movie.workerList}">
+                    <a target="_blank" th:href="@{'/worker/id/' + ${worker.WorkerId}}" th:if="${workerStat.index != 0}" th:text="${worker.WName}">演员名字</a> /
+                </span>
+
+                <!--这里显示电影的其他信息-->
+                <div th:text="'类型 : ' + ${movie.MType} ">类型</div>
+                <div th:text="'制片国家/地区 : ' + ${movie.MCountry}">制品国家地区</div>
+                <div th:text="'语言 : ' + ${movie.MLanguage}">语言</div>
+                <div th:text="'上映日期 : ' + ${movie.MReleaseDate}">上映日期</div>
+                <div th:text="'片场 : ' + ${movie.MLength}">片长</div>
+                <div th:text="'豆瓣评分 : ' + ${movie.MRating}">豆瓣评分</div>
+                <br><br>
+            </div>
+            <div class="bottomDiv">
+                <h3 class="padding10 text-success bg-success" th:text="${movie.MChineseName} + ' 剧情简介 · · · · · ·'">电影名称 剧情简介 · · · · · ·</h3>
+                <hr>
+                <p th:text="${movie.MDigest}"></p><a href="#">查看更多</a>
+                <hr>
+            </div>
+        </div>
+
+        <h3 class="text-danger bg-danger padding10" th:text="${movie.MChineseName} + ' 工作人员'">电影名称 工作人员</h3>
+        <hr>
+        <div class="workerGallery" th:each="worker, workerStat:${movie.workerList}">
+
+<!--          这里重新遍历了一下电影的员工列表，包括导演，用图片超链接的形式再显示一次导演和演员信息-->
+
+            <!--点击这里的超链接，可以查看每个员工（导演或演员）的详细信息-->
+            <a class="item" target="_blank" th:href="@{'/worker/id/' + ${worker.WorkerId}}">
+                <div class="cover-wp">
+                    <img th:src="@{/images/{imgName}(imgName=${worker.WImage})}" alt="${worker.WName}" data-x="3000" data-y="4454">
+                </div>
+                <p th:text="${worker.WName}"></p>
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>
