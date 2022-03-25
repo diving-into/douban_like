@@ -35,4 +35,13 @@ public class MovieController {
         mv.setViewName("movie_info");
         return mv;
     }
+   
+    @GetMapping("/movie/name")
+    public ModelAndView queryMoviesByName(String keyword) {
+        List<Movie> movies = movieService.findMoviesByKeyWords(keyword);
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("movies", movies);
+        mv.setViewName("movie_list");
+        return mv;
+    }
 }
